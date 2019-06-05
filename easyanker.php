@@ -1,9 +1,9 @@
 <?php
 /*
-EasyBitcoin-PHP
+Anker-PHP-Lib
 
-A simple class for making calls to Bitcoin's API using PHP.
-https://github.com/aceat64/EasyBitcoin-PHP
+A simple class for making calls to AnkerNode API using PHP.
+https://github.com/ankerid/Anker-PHP-Lib
 
 ====================
 
@@ -31,41 +31,41 @@ THE SOFTWARE.
 
 ====================
 
-// Initialize Bitcoin connection/object
-$bitcoin = new Bitcoin('username','password');
+// Initialize Anker connection/object
+$anker = new Anker('username','password');
 
 // Optionally, you can specify a host and port.
-$bitcoin = new Bitcoin('username','password','host','port');
+$anker = new Anker('username','password','host','port');
 // Defaults are:
 //	host = localhost
-//	port = 8332
+//	port = 11772
 //	proto = http
 
 // If you wish to make an SSL connection you can set an optional CA certificate or leave blank
 // This will set the protocol to HTTPS and some CURL flags
-$bitcoin->setSSL('/full/path/to/mycertificate.cert');
+$anker->setSSL('/full/path/to/mycertificate.cert');
 
-// Make calls to bitcoind as methods for your object. Responses are returned as an array.
+// Make calls to ankerd as methods for your object. Responses are returned as an array.
 // Examples:
-$bitcoin->getinfo();
-$bitcoin->getrawtransaction('0e3e2357e806b6cdb1f70b54c3a3a17b6714ee1f0e68bebb44a74b1efd512098',1);
-$bitcoin->getblock('000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f');
+$anker->getinfo();
+$anker->getrawtransaction('0e3e2357e806b6cdb1f70b54c3a3a17b6714ee1f0e68bebb44a74b1efd512098',1);
+$anker->getblock('000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f');
 
 // The full response (not usually needed) is stored in $this->response
 // while the raw JSON is stored in $this->raw_response
 
 // When a call fails for any reason, it will return FALSE and put the error message in $this->error
 // Example:
-echo $bitcoin->error;
+echo $anker->error;
 
 // The HTTP status code can be found in $this->status and will either be a valid HTTP status code
 // or will be 0 if cURL was unable to connect.
 // Example:
-echo $bitcoin->status;
+echo $anker->status;
 
 */
 
-class Bitcoin
+class Anker
 {
     // Configuration options
     private $username;
@@ -185,10 +185,10 @@ class Bitcoin
         }
 
         if ($this->response['error']) {
-            // If bitcoind returned an error, put that in $this->error
+            // If ankerd returned an error, put that in $this->error
             $this->error = $this->response['error']['message'];
         } elseif ($this->status != 200) {
-            // If bitcoind didn't return a nice error message, we need to make our own
+            // If ankerd didn't return a nice error message, we need to make our own
             switch ($this->status) {
                 case 400:
                     $this->error = 'HTTP_BAD_REQUEST';
